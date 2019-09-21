@@ -11,15 +11,15 @@ axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=cod
         console.log(res);
     })
     .catch(function (err) {
-        if (error.response) {
+        if (err.response) {
 
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-        } else if (error.request) {
-            console.log(error.request);
+            console.log(err.response.data);
+            console.log(err.response.status);
+            console.log(err.response.headers);
+        } else if (err.request) {
+            console.log(err.request);
         } else {
-            console.log("Error", error.message);
+            console.log("Error", err.message);
         }
-        console.log(error.config);
+        console.log(err.config);
     });
