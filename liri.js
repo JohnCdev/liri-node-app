@@ -3,14 +3,12 @@ var keys = require("./keys.js");
 var axios = require("axios");
 var moment = require("moment");
 var Spotify = require('node-spotify-api');
+var fs = require("fs");
 
 var spotify = new Spotify(keys.spotify);
 
 var method = process.argv[2];
 var input = process.argv[3]
-
-var artist = method;
-var title = method;
 
 //commands
 // concert-this
@@ -18,38 +16,82 @@ var title = method;
 // movie-this
 // do-what-it-says
 
-//Axios Bands in Town request
-axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=" + keys.other.bit)
-    .then(function (res) {
-        console.log(res.data);
-    })
-    .catch(function (err) {
-        if (err.response) {
+readMethod();
 
-            console.log(err.response.data);
-            console.log(err.response.status);
-            console.log(err.response.headers);
-        } else if (err.request) {
-            console.log(err.request);
-        } else {
-            console.log("Error", err.message);
-        }
-        console.log(err.config);
-    });
+function readMethod() {
+    switch (method) {
+        case 'concert-this':
+            getBands();
+            break;
+        case 'movie-this':
+            getMovies();
+            break;
+        case 'spotify-this-song':
+            getSongs();
+            break;
+        case 'do-what-it-says':
+            useFS();
+            break;
+        default:
+            console.log("Command unrecognized")
+    }
+}
+
+//Axios Bands in Town request
+function getBands() {
+    axios.get("https://rest.bandsintown.com/artists/" + input + "/events?app_id=" + keys.other.bit)
+        .then(function (res) {
+            console.log(res.data[0]);
+        })
+        .catch(function (err) {
+            if (err.response) {
+
+                console.log(err.response.data);
+                console.log(err.response.status);
+                console.log(err.response.headers);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("Error", err.message);
+            }
+            console.log(err.config);
+        });
+}
 
 //Axios OMBD
-// axios.get("https://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=" + keys.other.omdb)
-//     .then(function(res) {
-//         console.log(res.data)
-//     })
-//     .catch(function (err) {
-//         console.log(err)
-//     });
+function getMovies() {
+    axios.get("https://www.omdbapi.com/?t=" + input + "&y=&plot=short&apikey=" + keys.other.omdb)
+        .then(function (res) {
+            console.log(res.data)
+        })
+        .catch(function (err) {
+            console.log(err)
+        });
+}
 
 //Spotify api request
-// spotify.search({ type: 'track', query: 'All the Small Things' }, function (err, res) {
-//     if (err) {
-//         return console.log('Error occurred: ' + err);
-//     }
-//     console.log(res.tracks)
-// });
+function getSongs() {
+    spotify.search({ type: 'track', query: input }, function (err, res) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+        console.log(res.tracks.items[0])
+    });
+}
+
+//FS read and re-run
+function useFS() {
+
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            return console.log(error);
+        }
+
+        var arrData = data.split(",")
+        method = arrData[0]
+        input = arrData[1]
+        input = input.replace(/['"]+/g, '')
+        console.log(`${method}    ${input}`)
+        readMethod();
+    });
+}
