@@ -1,7 +1,7 @@
 # liri-node-app
 
 ## How to use:
-####Run from node command line these commands:
+Run from node command line these commands:
 - concert-this <band name>
 - spotify-this-song <song name>
 - movie-this <movie name>
