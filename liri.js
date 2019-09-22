@@ -22,15 +22,19 @@ function readMethod() {
     switch (method) {
         case 'concert-this':
             getBands();
+            logFS();
             break;
         case 'movie-this':
             getMovies();
+            logFS();
             break;
         case 'spotify-this-song':
             getSongs();
+            logFS();
             break;
         case 'do-what-it-says':
             useFS();
+            logFS();
             break;
         default:
             console.log("Command unrecognized")
@@ -133,4 +137,14 @@ function useFS() {
         console.log(`${method}    ${input}`)
         readMethod();
     });
+}
+
+function logFS() {
+
+    fs.appendFile("log.txt", "\n" + method + ",\"" + input + "\"", function (err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+
 }
