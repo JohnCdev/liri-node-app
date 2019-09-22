@@ -8,7 +8,7 @@ var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 
 var method = process.argv[2];
-var input = process.argv[3]
+var input = process.argv.slice(3).join(" ");
 
 //commands
 // concert-this
@@ -41,7 +41,16 @@ function readMethod() {
 function getBands() {
     axios.get("https://rest.bandsintown.com/artists/" + input + "/events?app_id=" + keys.other.bit)
         .then(function (res) {
-            console.log(res.data[0]);
+            // console.log(res.data[0]);
+            console.log(`
+=/===========================================/=
+
+Venue: ${res.data[0].venue.name}
+Location: ${res.data[0].venue.city}, ${res.data[0].venue.country}
+Date: ${moment(res.data[0].datetime).format('MM/DD/YYYY')}
+
+=/===========================================/=
+        `)
         })
         .catch(function (err) {
             if (err.response) {
@@ -60,9 +69,26 @@ function getBands() {
 
 //Axios OMBD
 function getMovies() {
+    if (!input) {
+        input = "Mr. Nobody";
+    }
     axios.get("https://www.omdbapi.com/?t=" + input + "&y=&plot=short&apikey=" + keys.other.omdb)
         .then(function (res) {
-            console.log(res.data)
+            // console.log(res.data)
+            console.log(`
+=/===========================================/=
+
+Title: ${res.data.Title}
+Year: ${res.data.Year}
+IMDB Rating: ${res.data.imdbRating}
+RT Rating: ${res.data.Ratings[1].Value}       
+Country: ${res.data.Country}       
+Language: ${res.data.Language}       
+plot: ${res.data.Plot}       
+Actors: ${res.data.Actors}       
+
+=/===========================================/=
+        `)
         })
         .catch(function (err) {
             console.log(err)
@@ -71,11 +97,24 @@ function getMovies() {
 
 //Spotify api request
 function getSongs() {
+    if (!input) {
+        input = "The Sign";
+    }
     spotify.search({ type: 'track', query: input }, function (err, res) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log(res.tracks.items[0])
+        // console.log(res.tracks.items[0])
+        console.log(`
+=/===========================================/=
+
+Artist: ${res.tracks.items[0].artists[0].name}
+Song: ${res.tracks.items[0].name}
+Preview: ${res.tracks.items[0].preview_url}
+Album: ${res.tracks.items[0].album.name}       
+
+=/===========================================/=
+        `)
     });
 }
 
