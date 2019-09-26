@@ -23,10 +23,14 @@ Node app that allows users to enter different commands to search concerts, songs
 
 ## Example Images:
 
+### movie-this Shrek 2
 ![movie-this](/images/movie-this.png)
 
+### concert-this Metallica
 ![concert-this](/images/concert-this.png)
 
+### spotify-this-song Master of Puppets
 ![spotify-this-song](/images/spotify-this.png)
 
+### random.txt - movie-this,"Shrek 2"
 ![do-what-it-says](/images/do-what.png)
