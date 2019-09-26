@@ -20,3 +20,8 @@ Node app that allows users to enter different commands to search concerts, songs
 - dotenv
 - moment
 - node-spotify-api
+
+## Example Images:
+
+![GitHub Logo](/images/logo.png)
+Format: ![Alt Text](url)
