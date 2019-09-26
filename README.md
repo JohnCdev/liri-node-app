@@ -23,5 +23,4 @@ Node app that allows users to enter different commands to search concerts, songs
 
 ## Example Images:
 
-![GitHub Logo](/images/logo.png)
-Format: ![Alt Text](url)
+![movie-this](../images/movie_this.png)
