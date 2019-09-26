@@ -23,4 +23,10 @@ Node app that allows users to enter different commands to search concerts, songs
 
 ## Example Images:
 
-![movie-this](../images/movie_this.png)
+![movie-this](/images/movie-this.png)
+
+![concert-this](/images/concert-this.png)
+
+![spotify-this-song](/images/spotify-this.png)
+
+![do-what-it-says](/images/do-what.png)
